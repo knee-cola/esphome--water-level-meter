@@ -17,7 +17,7 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
 
 **Implementation Principle**: Minimal viable solution - implement only the essential functionality requested without extra logging, error checking, or monitoring features.
 
-## Technical Analysis
+## Technical Context
 
 ### Current System Architecture
 - **Main Config**: `src/config.yaml` contains JSN-SR04T UART configuration
@@ -44,7 +44,72 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
    - Sensor initialization timeouts during 2s stabilization period
    - Interval timing issues affecting sensor power cycles
 
+## Implementation Details
 
+### 1. Error Flag Global Variable
+Add a single global variable for error tracking:
+```yaml
+globals:
+  - id: sensor_error_flag
+    type: bool
+    restore_value: false
+    initial_value: 'false'  # false = OK, true = Error
+```
+
+### 2. Enhanced JSN-SR04T Sensor Configuration
+Add error detection using `on_raw_value` event handler:
+```yaml
+sensor:
+  # JSN-SR04T ultrasonic distance sensor with interval-based power management
+  # Note: jsn_sr04t platform does not support power_supply component
+  # Raw distance sensor (top-mounted, measures distance from sensor to water surface)
+  - platform: jsn_sr04t
+    id: raw_distance_sensor
+    uart_id: uart_bus
+    name: "Raw Distance"
+    device_class: distance
+    icon: "mdi:ruler"
+    unit_of_measurement: "m"
+    accuracy_decimals: 3
+    update_interval: never  # Controlled by interval component
+    # ADD THIS NEW EVENT HANDLER:
+    on_raw_value:
+      - lambda: |-
+          // Check for valid reading from sensor
+          if (isnan(x)) {
+            ESP_LOGW("sensor", "JSN-SR04T reading failed");
+            id(sensor_error_flag) = true;
+          } else {
+            // Successful reading - clear error flag
+            if (id(sensor_error_flag)) {
+              ESP_LOGI("sensor", "JSN-SR04T reading recovered");
+            }
+            id(sensor_error_flag) = false;
+          }
+    # PRESERVE ALL EXISTING FILTERS EXACTLY AS THEY ARE:
+    filters:
+      - median:
+          window_size: 3        # or 5 if you burst 5 reads
+          send_every: 3         # (or 5) publish only the aggregated value
+          send_first_at: 3
+      - clamp:
+          min_value: 0.0
+          max_value: 3.0        # adjust to your max measurable distance (m)
+      - delta: 0.01             # optional: only publish if change >= 1 cm (if units are meters)
+```
+
+### 3. Home Assistant Binary Sensor
+Add binary sensor to expose error status to Home Assistant:
+```yaml
+binary_sensor:
+  - platform: template
+    name: "Sensor Error"
+    id: sensor_error_binary
+    lambda: 'return id(sensor_error_flag);'
+    device_class: problem
+    entity_category: diagnostic
+    icon: "mdi:alert-circle"
+```
 
 ## Implementation Checklist
 

@@ -29,7 +29,13 @@ When creating an implementation plan, ensure it includes these mandatory section
 - Emphasize preservation of existing configuration parameters
 - Require incremental changes to isolate potential issues
 
-### 5. Implementation Workflow Steps
+### 5. Technical Content Requirements
+- Include current system architecture overview and constraints
+- Provide specific code snippets and configuration examples
+- Document integration points and dependencies
+- Specify preservation requirements for existing functionality
+
+### 6. Implementation Workflow Steps
 Include these specific workflow instructions in every plan:
 - Project planning with comprehensive task checklist
 - Git branch setup with proper naming conventions
@@ -46,7 +52,7 @@ Every implementation plan must specify these non-negotiable requirements:
 4. **Preserve Existing Functionality**: Unless explicitly modifying, preserve all existing behavior
 5. **Progress Tracking**: Require status indicator updates and checklist completion marking during project implementation
 6. **Task Completion**: Each task must be marked completed (✅) when finished
-7. **Minimal Viable Solution**: Implement only the essential functionality requested - avoid adding extra logging, error checking, or monitoring unless explicitly requested by the user
+7. **Minimal Viable Solution**: Implement only the essential functionality requested in terms of features and scope - avoid adding extra logging, error checking, or monitoring unless explicitly requested. However, provide comprehensive technical documentation, code snippets, and implementation details necessary for successful implementation.
 
 ## Implementation Plan Template Structure
 
@@ -59,6 +65,12 @@ Use this structure when creating implementation plans:
 
 ## Project Overview
 [Brief description of what will be implemented]
+
+## Technical Context
+[Current system architecture, constraints, and integration points]
+
+## Implementation Details
+[Specific code snippets, configuration examples, and technical requirements]
 
 ## Implementation Checklist
 
@@ -79,4 +91,7 @@ Use this structure when creating implementation plans:
 ### Final Validation
 - [ ] Final build validation with `./build.sh`
 - [ ] Update project status to ✅ DONE
+
+## Architecture Notes
+[Integration constraints, timing considerations, and implementation notes]
 ```
