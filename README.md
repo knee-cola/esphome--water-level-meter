@@ -64,21 +64,21 @@ If you encounter issues during build or operation, consult: [Troubleshooting Gui
 ## 📸 Device Gallery
 
 ### Completed Device
-<img src="docs/esphome-water-level-meter--device-photo.jpg" alt="Completed ESPHome Water Level Meter Device" width="600">
+<img src="docs/esphome-water-level-meter--device-photo.jpg" alt="Completed ESPHome Water Level Meter Device" width="300">
 
 *The assembled water level meter showing ESP32-C3, level shifter, AQV258 PhotoMOS, and JSN-SR04T connections in weatherproof enclosure*
 
 ### Home Assistant Integration
-<img src="docs/home-assistant-panel-screenshot.jpg" alt="Home Assistant Sensor Panel" width="500">
+<img src="docs/home-assistant-panel-screenshot.jpg" alt="Home Assistant Sensor Panel" width="300">
 
 *Home Assistant dashboard displaying real-time water level readings: distance measurement, percentage level, and calculated volume in liters*
 
 ### Installation Examples
-<img src="docs/esphome-water-level-meter--installed-device.jpg" alt="Installed Control Box" width="500">
+<img src="docs/esphome-water-level-meter--installed-device.jpg" alt="Installed Control Box" width="300">
 
 *Control box installation showing weatherproof enclosure mounted near water tank*
 
-<img src="docs/esphome-water-level-meter--installed-sensor.jpg" alt="Installed JSN-SR04T Sensor" width="500">
+<img src="docs/esphome-water-level-meter--installed-sensor.jpg" alt="Installed JSN-SR04T Sensor" width="300">
 
 *JSN-SR04T sensor mounted on tank ceiling, positioned for optimal ultrasonic measurement*
 
