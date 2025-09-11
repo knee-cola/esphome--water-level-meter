@@ -58,6 +58,13 @@ wifi:
 # Listening at http://192.168.4.1/
 captive_portal:
 
+# Global variables
+globals:
+  - id: sensor_error_flag
+    type: bool
+    restore_value: false
+    initial_value: 'false'  # false = OK, true = Error
+
 # GPIO power control for JSN-SR04T sensor
 # Controls AQV258 PhotoMOS solid state relay
 switch:
