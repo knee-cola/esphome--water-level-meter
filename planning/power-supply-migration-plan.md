@@ -203,7 +203,7 @@ git commit -m "Complete power supply migration project
 - [x] Step 1: Add power_supply component
 - [x] Step 2: Update JSN-SR04T sensor configuration  
 - [x] Step 3: Remove obsolete components
-- [ ] Step 4: Update configuration comments
+- [x] Step 4: Update configuration comments
 - [ ] Step 5: Documentation updates (README.md, CLAUDE.md)
 - [ ] Step 6: Project completion and integration
 

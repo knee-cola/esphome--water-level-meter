@@ -74,6 +74,7 @@ uart:
   baud_rate: 9600  # Common for JSN‑SR04T UART modes
 
 sensor:
+  # JSN-SR04T with automatic power management via power_supply
   # Raw distance sensor (top-mounted, measures distance from sensor to water surface)
   - platform: jsn_sr04t
     id: raw_distance_sensor
