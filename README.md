@@ -22,7 +22,9 @@ This project creates a Home Assistant-ready water level sensor using an **ESP32-
 | **ESP32‑C3 Super Mini** | Main microcontroller | TENSTAR ROBOT or equivalent |
 | **[JSN‑SR04T](docs/JSN‑SR04T.md)** | Ultrasonic distance sensor | Waterproof, 5V logic |
 | **Logic Level Converter** | 5V ↔ 3.3V signal conversion | 4-channel bidirectional |
+| **AQV258 PhotoMOS** | Power control relay | Optical isolation, 5V switching |
 | **120kΩ Resistor** | Enable UART Mode 2 | Solder to R27 pad |
+| **470kΩ Resistor** | PhotoMOS LED current limiting | Between GPIO10 and AQV258 |
 | **Dupont Wires** | Connections | Male-to-female recommended |
 | **5V Power Supply** | System power | USB to ESP32-C3 |
 
