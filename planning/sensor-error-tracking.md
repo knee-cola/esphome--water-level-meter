@@ -124,73 +124,8 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
   2. Check for ESPHome compilation errors
   3. Verify all entity IDs are unique and properly referenced
 
-## Technical Considerations
 
-### Performance Impact
-- **Memory Usage**: Single global variable (1 byte)
-- **CPU Overhead**: Minimal - simple NaN check in existing filter (~1% overhead)
-- **Network Traffic**: One additional binary sensor entity
-- **Update Frequency**: Works with existing 20-minute sensor intervals
-- **Power Supply**: No changes to existing automatic power management
 
-### ESPHome Limitations
-- Global variables have limited types (int, float, bool, string)
-- Lambda functions must be efficient to avoid watchdog resets
-- UART error callbacks may be platform-specific
-- Memory constraints on ESP32-C3 (400KB RAM)
-
-### Home Assistant Integration
-- Entity categories ensure proper organization
-- Device classes provide appropriate icons and behavior
-- Diagnostic entities are separate from main sensor data
-- Historical data storage for trend analysis
-
-## Success Criteria
-
-1. **Functional Requirements Met**:
-   - Error flag sets to true when sensor reading fails
-   - Error flag resets to false after successful reading
-   - Home Assistant binary sensor shows current error status
-
-2. **Performance Requirements**:
-   - No measurable impact on normal operation
-   - Minimal memory footprint (1 byte)
-   - No additional network overhead
-
-3. **Integration Requirements**:
-   - Binary sensor visible in Home Assistant
-   - Error status useful for basic sensor health monitoring
-
-## Possible Future Improvements
-
-### Advanced Error Tracking
-- **Error Classification**: Categorize different types of sensor errors (timeout, invalid data, power issues)
-- **Error Counters**: Track total error count, consecutive errors, and error timestamps
-- **Error Rate Statistics**: Calculate errors per hour or per day for trend analysis
-- **Historical Tracking**: Store error history for pattern recognition
-
-### Enhanced Diagnostics
-- **Error Type Sensors**: Text sensors showing specific error types and details
-- **Error Logging**: Detailed logging with timestamps and error context
-- **Minutes Since Last Valid Reading**: Track time since last successful sensor reading
-- **Recovery Attempts**: Count and track automatic recovery attempts
-
-### Automatic Recovery
-- **Forced Sensor Readings**: Trigger additional sensor readings on errors
-- **Error Threshold Automation**: Automatic recovery attempts after multiple failures
-- **Configurable Thresholds**: User-configurable error limits for alerts and recovery
-
-### Advanced Home Assistant Integration
-- **Critical Error Alerts**: Separate binary sensors for different severity levels
-- **Configuration Parameters**: Template number entities for error thresholds
-- **Diagnostic Dashboard**: Comprehensive error statistics and trends
-- **Notification Automation**: Home Assistant automations for error alerts
-
-### System Monitoring
-- **Performance Metrics**: Monitor impact of error tracking on system performance
-- **Memory Usage Tracking**: Track memory consumption of error tracking features
-- **Network Impact**: Monitor additional network traffic from error entities
-- **Power Consumption**: Analyze impact on battery life (if applicable)
 
 ## Implementation Notes for AI Agent
 
@@ -208,11 +143,7 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
 8. **Power Supply Compatibility**: Work within existing automatic power management
 9. **Documentation Updates**: Update relevant docs after implementation
 
-## Git Workflow
-1. Create feature branch: `git checkout -b feature/sensor-error-tracking`
-2. Implement each task with individual commits
-3. Test functionality on each commit
-4. Merge to main branch when complete and tested
+
 
 ## Implementation Checklist
 
@@ -240,15 +171,11 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
 - [ ] Build validation: `./build.sh --no-flash`
 
 ### Task 4: Build Validation
-- [ ] Final build validation with `./build.sh`
+- [ ] Final build validation with `./build.sh --no-flash`
 - [ ] Verify all entity IDs are unique
 - [ ] Check for ESPHome compilation warnings
-- [ ] Commit: "Final validation and cleanup"
 
 ### Project Completion
-- [ ] All tasks completed successfully
-- [ ] All commits made with clear messages
-- [ ] Ready for merge to main branch
 - [ ] Update project status to ✅ DONE
 
 ## Key Architecture Notes
