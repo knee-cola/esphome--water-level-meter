@@ -116,7 +116,6 @@ lambda: |-
 ## Documentation Structure
 
 Comprehensive documentation in `docs/`:
-- `ESPHOME_FLASHING.md`: Step-by-step flashing guide
 - `JSN‑SR04T.md`: Sensor technical details and modification
 - `WIRING_SCHEMATICS.md`: Complete wiring diagrams
 - `HA_INTEGRATION.md`: Home Assistant setup
