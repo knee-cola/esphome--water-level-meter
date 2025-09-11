@@ -62,7 +62,6 @@ captive_portal:
 power_supply:
   - id: jsn_sr04t_power
     pin: GPIO10
-    inverted: true  # For AQV258 PhotoMOS (HIGH=ON, LOW=OFF)
     enable_time: 2000ms  # Power-on stabilization time
     keep_on_time: 1000ms # Keep power after last sensor stops
 
@@ -74,7 +73,7 @@ uart:
   baud_rate: 9600  # Common for JSN‑SR04T UART modes
 
 sensor:
-  # JSN-SR04T with automatic power management via power_supply
+  # JSN-SR04T ultrasonic distance sensor
   # Raw distance sensor (top-mounted, measures distance from sensor to water surface)
   - platform: jsn_sr04t
     id: raw_distance_sensor
@@ -85,7 +84,6 @@ sensor:
     unit_of_measurement: "m"
     accuracy_decimals: 3
     update_interval: 20min  # Native sensor updates every 20 minutes
-    power_supply: jsn_sr04t_power  # Automatic power management
     filters:
       - median:
           window_size: 3        # or 5 if you burst 5 reads
