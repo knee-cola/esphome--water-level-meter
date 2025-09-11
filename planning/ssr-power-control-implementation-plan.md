@@ -3,6 +3,9 @@
 ## Overview
 Implement solid state relay (SSR) control to manage JSN-SR04T sensor power supply via ESP32-C3 GPIO pin. The sensor will be powered off between readings to reduce power consumption and extend hardware lifespan.
 
+## Motivation
+During testing, the JSN-SR04T sensor was observed to occasionally get stuck producing the same value continuously, not reflecting the actual water level changes. Unlike the ESP32-C3 which can be restarted programmatically when it stops behaving as expected, the JSN-SR04T has no software reset capability. By switching the device off and on again, any bad internal state of the sensor's controller will be cleared, ensuring reliable operation and accurate readings.
+
 ## Current System Analysis
 
 ### Pin Usage (src/config.yaml)
