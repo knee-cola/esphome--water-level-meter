@@ -129,4 +129,4 @@ Comprehensive documentation in `docs/`:
 - Uses ESP-IDF framework for ESP32-C3 (more robust than Arduino framework)
 - Web server on port 80 for local diagnostics and configuration
 - Template sensors calculate water level percentage and volume from raw distance measurements
-- Update intervals configurable (default 30s) with optional burst reading capability
+- Native 20-minute update intervals with automatic power management via power_supply component

@@ -88,7 +88,7 @@ If you encounter issues during build or operation, consult: [Troubleshooting Gui
 
 - **Measurement Range:** 20cm - 5m
 - **Accuracy:** ±1cm
-- **Update Interval:** Configurable (recommended: 30-60 seconds)
+- **Update Interval:** 20 minutes (automatic with power management)
 - **Power Consumption:** ~50mA during measurement, <1mA in deep sleep
 - **Operating Temperature:** -40°C to +85°C
 
@@ -106,6 +106,7 @@ If you encounter issues during build or operation, consult: [Troubleshooting Gui
 ### Planning Documents
 The `planning/` directory contains detailed implementation plans for upcoming features:
 - [SSR Power Control Implementation Plan](planning/ssr-power-control-implementation-plan.md) - Solid state relay integration for sensor power management
+- [Power Supply Migration Plan](planning/power-supply-migration-plan.md) - Migration from interval-based to native ESPHome power management
 
 ---
 
