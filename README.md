@@ -107,6 +107,7 @@ If you encounter issues during build or operation, consult: [Troubleshooting Gui
 
 ### Planning Documents
 The `planning/` directory contains detailed implementation plans for upcoming features:
+- [General Project Implementation Guidelines](planning/general-project-guidelines.md) - Standardized development practices and workflow guidelines for all project implementations
 - [JSN-SR04T Sensor Error Tracking Implementation Plan](planning/sensor-error-tracking.md) - Comprehensive error detection and Home Assistant integration for sensor health monitoring
 - [SSR Power Control Implementation Plan](planning/ssr-power-control-implementation-plan.md) - Solid state relay integration for sensor power management
 - [Power Supply Migration Plan](planning/power-supply-migration-plan.md) - Migration from interval-based to native ESPHome power management
