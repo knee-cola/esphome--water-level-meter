@@ -69,6 +69,21 @@ If you encounter issues during build or operation, consult: [Troubleshooting Gui
 
 ---
 
+---
+
+## 📁 Project Structure
+
+### Documentation
+- `docs/` - User guides and technical documentation
+- `src/` - ESPHome configuration files
+- `planning/` - Implementation plans and design documents for future features
+
+### Planning Documents
+The `planning/` directory contains detailed implementation plans for upcoming features:
+- [SSR Power Control Implementation Plan](planning/ssr-power-control-implementation-plan.md) - Solid state relay integration for sensor power management
+
+---
+
 ## Links
 
 * [JSN‑SR04T Arduino sketch](https://github.com/HamidSaffari/JSN-SR04T) — Arduino sketch, PDF docs

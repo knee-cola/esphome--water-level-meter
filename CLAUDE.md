@@ -57,7 +57,11 @@ ota_password: "your-ota-password"
 ### Critical Hardware Requirements
 - **JSN-SR04T Modification**: Must solder 120kΩ resistor to R27 pad for UART Mode 2
 - **Logic Level Conversion**: Required for 5V sensor ↔ 3.3V ESP32-C3 communication
-- **Pin Assignments**: UART on GPIO20 (RX) and GPIO21 (TX)
+- **Pin Assignments**: 
+  - UART on GPIO20 (RX) and GPIO21 (TX)
+  - **SSR Control on GPIO10** for JSN-SR04T power management
+- **Solid State Relay**: 3.3V trigger compatible, rated for 5V/50mA JSN-SR04T power
+- **Power Control**: SSR switches JSN-SR04T VCC to prevent stuck sensor states
 
 ### Network Configuration
 - Fixed IP (192.168.0.156) configured for Docker swarm OTA compatibility

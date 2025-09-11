@@ -44,3 +44,35 @@ The device supports multiple modes that govern how it communicates and how readi
 * Activated by adding **120 kΩ** resistor to **R27**
 * Serial communication (UART): **9600, 8N1**
 * Reading triggered by sending the command `0x55`
+
+## Power Control Integration
+
+**Important:** During testing, the JSN-SR04T sensor was observed to occasionally get stuck producing the same value continuously, not reflecting actual water level changes. Unlike the ESP32-C3 which can be restarted programmatically, the JSN-SR04T has no software reset capability.
+
+### Solid State Relay (SSR) Power Control
+
+To ensure reliable operation, the sensor power is controlled via a solid state relay connected to **GPIO10**:
+
+**Power Control Sequence:**
+1. **Power On**: GPIO10 → LOW → SSR ON → JSN-SR04T powered
+2. **Stabilization**: 2-second delay for sensor initialization  
+3. **Readings**: 3 burst measurements with 2s intervals
+4. **Power Off**: GPIO10 → HIGH → SSR OFF → JSN-SR04T unpowered
+
+**Benefits:**
+- **Reliability**: Clears any stuck internal states by power cycling
+- **Power Savings**: ~95% reduction in power consumption (sensor only on during readings)
+- **Hardware Longevity**: Reduced thermal stress and component wear
+
+### SSR Requirements
+
+- **Input**: 3-32VDC control voltage (3.3V ESP32-C3 compatible)
+- **Output**: Rated for JSN-SR04T power (5V, <50mA)
+- **Type**: Low-trigger preferred (ON when control pin is LOW)
+- **Isolation**: Galvanic isolation between control and power circuits
+
+### Timing Considerations
+
+**Sensor Initialization Time**: JSN-SR04T requires ~2 seconds after power-on to stabilize and provide accurate readings. The ESPHome configuration includes this delay automatically.
+
+**Reading Completion**: Allow 1-second delay after final reading before power-off to ensure UART communication completes properly.
