@@ -107,6 +107,19 @@ sensor:
     unit_of_measurement: "m"
     accuracy_decimals: 3
     update_interval: never  # Controlled by interval component
+    on_raw_value:
+      - lambda: |-
+          // Check for valid reading from sensor
+          if (isnan(x)) {
+            ESP_LOGW("sensor", "JSN-SR04T reading failed");
+            id(sensor_error_flag) = true;
+          } else {
+            // Successful reading - clear error flag
+            if (id(sensor_error_flag)) {
+              ESP_LOGI("sensor", "JSN-SR04T reading recovered");
+            }
+            id(sensor_error_flag) = false;
+          }
     filters:
       - median:
           window_size: 3        # or 5 if you burst 5 reads
