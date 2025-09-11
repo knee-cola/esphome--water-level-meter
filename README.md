@@ -1,4 +1,4 @@
-# 💧 ESPHome-water-level-meter
+# 💧 ESPHome water level meter
 
 Custom water level monitoring using ESPHome and ultrasonic sensors
 
