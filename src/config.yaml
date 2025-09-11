@@ -217,6 +217,14 @@ binary_sensor:
   - platform: status
     name: "Status"
 
+  - platform: template
+    name: "Sensor Error"
+    id: sensor_error_binary
+    lambda: 'return id(sensor_error_flag);'
+    device_class: problem
+    entity_category: diagnostic
+    icon: "mdi:alert-circle"
+
 # Number inputs for sensor calibration and tank configuration
 number:
   - platform: template
