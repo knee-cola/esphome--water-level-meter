@@ -15,6 +15,7 @@ CONTAINER_NAME="esphome-builder"
 # Default values
 FLASH_AFTER_BUILD=false
 FLASH_METHOD="serial"
+INTERACTIVE_MODE=true
 
 # Colors for output
 RED='\033[0;31m'
@@ -49,14 +50,16 @@ USAGE:
 
 OPTIONS:
     --flash                 Flash after successful build
+    --no-flash              Don't flash after build (default behavior)
     --method=METHOD         Flashing method: serial or ota (default: serial)
     --help                  Show this help message
 
 EXAMPLES:
     ./build.sh                          # Build only (interactive wizard)
+    ./build.sh --no-flash               # Build only (skip wizard)
     ./build.sh --flash                  # Build and flash via serial
     ./build.sh --flash --method=ota     # Build and flash via OTA
-    ./build.sh --flash --method=serial  # build and flash via serial
+    ./build.sh --flash --method=serial  # Build and flash via serial
 
 EOF
 }
@@ -66,6 +69,12 @@ while [[ $# -gt 0 ]]; do
     case $1 in
         --flash)
             FLASH_AFTER_BUILD=true
+            INTERACTIVE_MODE=false
+            shift
+            ;;
+        --no-flash)
+            FLASH_AFTER_BUILD=false
+            INTERACTIVE_MODE=false
             shift
             ;;
         --method=*)
@@ -85,7 +94,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Interactive wizard if no CLI parameters provided
-if [[ "$FLASH_AFTER_BUILD" == false && "$FLASH_METHOD" == "serial" ]]; then
+if [[ "$INTERACTIVE_MODE" == true ]]; then
     print_header "ESPHome Build Configuration"
     echo
         
