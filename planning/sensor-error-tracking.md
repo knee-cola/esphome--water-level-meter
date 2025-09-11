@@ -21,9 +21,9 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
 ### Current System Architecture
 - **Main Config**: `src/config.yaml` contains JSN-SR04T UART configuration
 - **Sensor Stack**: Raw distance → calculated water level → volume conversion
-- **Power Management**: Automatic power_supply component (GPIO10) with 1s keep-alive after readings
+- **Power Management**: Interval-based GPIO switch control (GPIO10) - JSN-SR04T platform does not support power_supply component
 - **Communication**: UART Mode 2 on GPIO20 (RX) and GPIO21 (TX)
-- **Update Cycle**: 20-minute intervals with median filtering
+- **Update Cycle**: 20-minute interval timer with manual power control and median filtering
 
 ### Error Sources to Track
 1. **UART Communication Errors**
@@ -39,9 +39,9 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
    - Extreme value variations (noise/interference)
 
 3. **Power Management Issues**
-   - Power supply component failures to enable
-   - Sensor initialization timeouts during 2s enable_time
-   - Power supply keep_on_time insufficient for sensor response
+   - GPIO switch failures to enable sensor power
+   - Sensor initialization timeouts during 2s stabilization period
+   - Interval timing issues affecting sensor power cycles
 
 ## Implementation Plan
 
@@ -64,7 +64,8 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
 - **Implementation**:
   ```yaml
   sensor:
-    # JSN-SR04T with automatic power management via power_supply
+    # JSN-SR04T ultrasonic distance sensor with interval-based power management
+    # Note: jsn_sr04t platform does not support power_supply component
     # Raw distance sensor (top-mounted, measures distance from sensor to water surface)
     - platform: jsn_sr04t
       id: raw_distance_sensor
@@ -74,8 +75,7 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
       icon: "mdi:ruler"
       unit_of_measurement: "m"
       accuracy_decimals: 3
-      update_interval: 20min  # Native sensor updates every 20 minutes
-      power_supply: jsn_sr04t_power  # Automatic power management
+      update_interval: never  # Controlled by interval component
       # ADD THIS NEW EVENT HANDLER:
       on_raw_value:
         - lambda: |-
@@ -124,9 +124,6 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
   2. Check for ESPHome compilation errors
   3. Verify all entity IDs are unique and properly referenced
 
-
-
-
 ## Implementation Notes for AI Agent
 
 1. **Git Branch Development**: Create and work on a separate git branch (e.g., `feature/sensor-error-tracking`)
@@ -140,7 +137,7 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
 5. **Entity Validation**: Verify all sensor and binary_sensor entities are properly defined
 6. **Project Status Updates**: During implementation, update the project status from 📐 Planning to 🔨 Implementing to 🩺 Testing to ✅ DONE as work progresses
 7. **Checklist Management**: Mark implementation checklist items as completed (✅) as each task is finished
-8. **Power Supply Compatibility**: Work within existing automatic power management
+8. **Interval Power Management Compatibility**: Work within existing interval-based GPIO switch power management
 9. **Documentation Updates**: Update relevant docs after implementation
 
 
@@ -159,7 +156,7 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
 ### Task 2: Enhance JSN-SR04T Sensor Configuration  
 - [ ] Locate existing JSN-SR04T sensor configuration in `src/config.yaml`
 - [ ] Add `on_raw_value` event handler with NaN detection and error flag logic
-- [ ] ⚠️ **CRITICAL**: Preserve ALL existing parameters (id, uart_id, name, device_class, icon, unit_of_measurement, accuracy_decimals, update_interval, power_supply)
+- [ ] ⚠️ **CRITICAL**: Preserve ALL existing parameters (id, uart_id, name, device_class, icon, unit_of_measurement, accuracy_decimals, update_interval: never)
 - [ ] ⚠️ **CRITICAL**: Keep ALL existing filters unchanged (median, clamp, delta with exact parameters)
 - [ ] Commit: "Add error detection to JSN-SR04T sensor"
 - [ ] Build validation: `./build.sh`
@@ -180,8 +177,9 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
 
 ## Key Architecture Notes
 
-- **Existing Power Management**: The JSN-SR04T already uses `power_supply` component with GPIO10
-- **Automatic Cycling**: Sensor is powered on 2s before reading, kept alive 1s after
-- **20-minute Intervals**: Native sensor update cycle with median filtering
-- **No Manual Power Control**: Recovery must work within the power_supply framework
+- **Current Power Management**: Uses interval-based GPIO switch control (GPIO10) - JSN-SR04T platform does not support power_supply component
+- **Interval-Based Cycling**: 20-minute interval timer controls power: ON → 2s stabilization → sensor reading → 1s delay → OFF
+- **Update Control**: Sensor uses `update_interval: never` and is triggered by `component.update` in interval automation
+- **Error Detection Timing**: Error detection occurs during the interval-controlled sensor reading cycle
+- **Power Control Integration**: Error tracking must work within the existing interval + switch power management framework
 - **Error Detection Timing**: Must account for power-on delay and sensor response time
