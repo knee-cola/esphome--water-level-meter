@@ -58,6 +58,14 @@ wifi:
 # Listening at http://192.168.4.1/
 captive_portal:
 
+# Power supply for JSN-SR04T sensor management
+power_supply:
+  - id: jsn_sr04t_power
+    pin: GPIO10
+    inverted: true  # For AQV258 PhotoMOS (HIGH=ON, LOW=OFF)
+    enable_time: 2000ms  # Power-on stabilization time
+    keep_on_time: 1000ms # Keep power after last sensor stops
+
 # UART (Mode 2). Bidirectional — level-shift RX and TX
 uart:
   id: uart_bus
