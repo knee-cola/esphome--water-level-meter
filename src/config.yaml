@@ -83,7 +83,8 @@ sensor:
     icon: "mdi:ruler"
     unit_of_measurement: "m"
     accuracy_decimals: 3
-    update_interval: never # → updates via interval (see task below )
+    update_interval: 20min  # Native sensor updates every 20 minutes
+    power_supply: jsn_sr04t_power  # Automatic power management
     filters:
       - median:
           window_size: 3        # or 5 if you burst 5 reads
