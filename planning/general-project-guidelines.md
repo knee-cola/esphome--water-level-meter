@@ -1,72 +1,81 @@
-# General Project Implementation Guidelines for AI Agents
+# Guidelines for Creating AI Agent Implementation Plans
 
-## AI Agent Development Workflow
+## Purpose
 
-### Git Branch Management
+This document provides instructions for AI agents on how to create comprehensive implementation plans for ESPHome projects. When tasked with implementing a feature, use these guidelines to structure your implementation approach and create actionable plans.
 
-1. **Feature Branch Development**: Always create and work on separate feature branches
-   - Naming convention: `feature/descriptive-feature-name`
-   - Examples: `feature/sensor-error-tracking`, `feature/power-management-upgrade`
+## Required Elements for Implementation Plans
 
-2. **Branch Workflow**:
-   - Create feature branch from `master`
-   - Implement changes incrementally with frequent commits
-   - Validate each major change before proceeding
-   - Merge back to `master` when complete
+When creating an implementation plan, ensure it includes these mandatory sections:
 
-### Incremental Development
+### 1. Project Status Tracking
+- Include progress indicators: 📐 Planning → 🔨 Implementing → 🩺 Testing → ✅ DONE
+- Update status as implementation progresses
 
-1. **Commit Strategy**: Commit changes after each logical unit of work
-   - Task-based commits (e.g., "Add error flag global variable")
-   - Feature-based commits (e.g., "Add Home Assistant binary sensor")
-   - Fix-based commits (e.g., "Fix configuration validation error")
-   - Testing commits (e.g., "Validate build and entity configuration")
+### 2. Git Workflow Instructions
+- Specify feature branch naming: `feature/descriptive-feature-name`
+- Include branch creation and management steps
+- Define commit strategy for incremental development
+- Require descriptive, action-oriented commit messages
 
-2. **Commit Message Standards**:
-   - Use descriptive, action-oriented messages
-   - Include context about what the change accomplishes
-   - Reference relevant files or components when helpful
+### 3. Task Breakdown and Checklist
+- Create comprehensive checklist of all implementation tasks
+- Break down complex features into logical, manageable steps
+- Include validation steps after each major change
+- Specify completion marking with (✅) checkboxes
 
-## Configuration Validation
+### 4. Configuration Validation Requirements
+- Mandate `./build.sh` validation after every major change
+- Emphasize preservation of existing configuration parameters
+- Require incremental changes to isolate potential issues
 
-1. **After Every Major Change**: Use `./build.sh` to validate YAML syntax and configuration
-2. **Preserve Existing Configuration**: When modifying existing components, preserve ALL existing parameters unless explicitly changing them
-3. **Incremental Changes**: Make one logical change at a time to isolate potential issues
+### 5. Implementation Workflow Steps
+Include these specific workflow instructions in every plan:
+- Project planning with comprehensive task checklist
+- Git branch setup with proper naming conventions
+- Implementation loop: code → commit → validate → mark complete
+- Status updates throughout the development process
 
-## Implementation Workflow
+## Mandatory Implementation Rules for All Plans
 
-1. **Project Planning**:
-   - Create a checklist of tasks needed to complete the project
-   - Break down implementation into logical, manageable tasks
+Every implementation plan must specify these non-negotiable requirements:
 
-2. **Git Branch Setup**:
-   - Create feature branch: `feature/descriptive-feature-name`
-   - Switch to feature branch
+1. **Feature Branch Development**: All work must be done in dedicated feature branches
+2. **Incremental Commits**: Require frequent commits with descriptive messages
+3. **Build Validation**: Mandate `./build.sh` testing after each major change
+4. **Preserve Existing Functionality**: Unless explicitly modifying, preserve all existing behavior
+5. **Progress Tracking**: Require status indicator updates and checklist completion marking
+6. **Task Completion**: Each task must be marked completed (✅) when finished
 
-3. **For Each Implementation Task**:
-   - Complete the implementation
-   - Commit with descriptive message
-   - Build validation with `./build.sh`
-   - Mark checklist item as completed (✅)
+## Implementation Plan Template Structure
 
-4. **Project Status Updates**: Update status indicators as work progresses:
-   - Start: 📐 Planning → 🔨 Implementing  
-   - During: 🔨 Implementing → 🩺 Testing
-   - Complete: 🩺 Testing → ✅ DONE
+Use this structure when creating implementation plans:
 
-## ESPHome-Specific Requirements
+```
+# [Feature Name] Implementation Plan
 
-1. **Entity ID Consistency**: Use snake_case for IDs, Title Case for display names
-2. **Power Management**: Work within existing power management frameworks  
-3. **Component Integration**: Ensure seamless integration with existing sensor stacks
-4. **Logging Standards**: Use appropriate log levels (ESP_LOGI, ESP_LOGW, ESP_LOGE)
-5. **Error Recovery**: Implement automatic recovery mechanisms where possible
+## Project Status: 📐 Planning
 
-## Critical Implementation Rules
+## Project Overview
+[Brief description of what will be implemented]
 
-1. **Always work in feature branches** for development
-2. **Commit incrementally** with descriptive messages
-3. **Validate after each major change** with `./build.sh` 
-4. **Preserve existing functionality** unless explicitly modifying
-5. **Update status indicators** as work progresses
-6. **Mark checklist items completed (✅)** as each task is finished
+## Implementation Checklist
+
+### Git Branch Setup
+- [ ] Create feature branch `feature/[descriptive-name]`
+- [ ] Switch to feature branch
+
+### [Task Category 1]
+- [ ] [Specific task description]
+- [ ] Commit: "[Descriptive commit message]"
+- [ ] Build validation: `./build.sh`
+
+### [Task Category 2]
+- [ ] [Specific task description]  
+- [ ] Commit: "[Descriptive commit message]"
+- [ ] Build validation: `./build.sh`
+
+### Final Validation
+- [ ] Final build validation with `./build.sh`
+- [ ] Update project status to ✅ DONE
+```
