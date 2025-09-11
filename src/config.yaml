@@ -75,16 +75,16 @@ sensor:
     icon: "mdi:ruler"
     unit_of_measurement: "m"
     accuracy_decimals: 3
-    update_interval: 30s # → updates via interval (see task below )
-    # filters:
-    #   - median:
-    #       window_size: 3        # or 5 if you burst 5 reads
-    #       send_every: 3         # (or 5) publish only the aggregated value
-    #       send_first_at: 3
-    #   - clamp:
-    #       min_value: 0.0
-    #       max_value: 3.0        # adjust to your max measurable distance (m)
-    #   - delta: 0.01             # optional: only publish if change >= 1 cm (if units are meters)
+    update_interval: never # → updates via interval (see task below )
+    filters:
+      - median:
+          window_size: 3        # or 5 if you burst 5 reads
+          send_every: 3         # (or 5) publish only the aggregated value
+          send_first_at: 3
+      - clamp:
+          min_value: 0.0
+          max_value: 3.0        # adjust to your max measurable distance (m)
+      - delta: 0.01             # optional: only publish if change >= 1 cm (if units are meters)
 
 
   # Calculated water tank level percentage
@@ -241,11 +241,11 @@ number:
 
 
 # Once per hour, force exactly 3 quick updates (spaced a bit for sensor stability)
-# interval:
-#   - interval: 1h
-#     then:
-#       - component.update: raw_distance_sensor
-#       - delay: 2s
-#       - component.update: raw_distance_sensor
-#       - delay: 2s
-#       - component.update: raw_distance_sensor
+interval:
+  - interval: 1h
+    then:
+      - component.update: raw_distance_sensor
+      - delay: 2s
+      - component.update: raw_distance_sensor
+      - delay: 2s
+      - component.update: raw_distance_sensor
