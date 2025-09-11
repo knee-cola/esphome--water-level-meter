@@ -73,6 +73,15 @@ If you encounter issues during build or operation, consult: [Troubleshooting Gui
 
 *Home Assistant dashboard displaying real-time water level readings: distance measurement, percentage level, and calculated volume in liters*
 
+### Installation Examples
+<img src="docs/esphome-water-level-meter--installed-device.jpg" alt="Installed Control Box" width="500">
+
+*Control box installation showing weatherproof enclosure mounted near water tank*
+
+<img src="docs/esphome-water-level-meter--installed-sensor.jpg" alt="Installed JSN-SR04T Sensor" width="500">
+
+*JSN-SR04T sensor mounted on tank ceiling, positioned for optimal ultrasonic measurement*
+
 ---
 
 ## 📊 Expected Performance
