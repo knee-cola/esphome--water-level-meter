@@ -2,7 +2,8 @@
 # This is an example and may include too much for your use-case.
 # You can modify this file to suit your needs.
 /.esphome/
-secrets.yaml
+# secrets.yaml - Uncomment to ignore real secrets file
+# secrets.yaml
 
 # Serena MCP server files (local development environment)
 .serena/

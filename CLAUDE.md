@@ -44,13 +44,16 @@ JSN-SR04T (UART Mode 2) → ESP32-C3 → Template Calculations → Home Assistan
 Uses `esphome/esphome:2025.8.1` image with volume mounting for cross-platform compatibility.
 
 ### Configuration Requirements
-Create `src/secrets.yaml`:
+The project includes a template `src/secrets.yaml` file with placeholder values. **You must update this file with your actual credentials before building:**
+
 ```yaml
-wifi_ssid: "YourWiFiName" 
-wifi_password: "YourWiFiPassword"
-api_key: "32-character-hex-api-key"
-ota_password: "your-ota-password"
+wifi_ssid: "Your-WiFi-Network-Name"          # Replace with your WiFi name
+wifi_password: "your-wifi-password"           # Replace with your WiFi password  
+api_key: "0123...abcdef"                      # Generate with: openssl rand -hex 32
+ota_password: "your-secure-ota-password"      # Choose a secure OTA password
 ```
+
+> **🔒 Security Note:** After updating `secrets.yaml` with real values, uncomment the `secrets.yaml` line in `.gitignore` to prevent accidentally committing private credentials to version control.
 
 ## Hardware Integration Notes
 
