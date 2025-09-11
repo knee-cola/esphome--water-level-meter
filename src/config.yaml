@@ -151,6 +151,16 @@ sensor:
     icon: "mdi:clock-outline"
 
 # Binary sensors for alerts
+# Switch for controlling JSN-SR04T power via solid state relay
+switch:
+  - platform: gpio
+    pin: GPIO10
+    id: sensor_power_control
+    name: "JSN-SR04T Power Control"
+    inverted: true  # For low-trigger SSRs
+    restore_mode: RESTORE_DEFAULT_OFF
+    internal: true  # Hide from Home Assistant UI
+
 binary_sensor:
   - platform: template
     name: "Low Water Alert"
@@ -244,8 +254,15 @@ number:
 interval:
   - interval: 1h
     then:
+      # Power on sensor
+      - switch.turn_on: sensor_power_control
+      - delay: 2s  # Allow sensor to stabilize
+      # Take readings with guaranteed power-off
       - component.update: raw_distance_sensor
       - delay: 2s
       - component.update: raw_distance_sensor
       - delay: 2s
       - component.update: raw_distance_sensor
+      - delay: 1s  # Allow final reading to complete
+      # Always power off sensor
+      - switch.turn_off: sensor_power_control
