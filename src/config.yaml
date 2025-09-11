@@ -1,0 +1,251 @@
+# Configuration for ESP32-C3 + JSN-SR04T water level sensor
+substitutions:
+  device_name: "water-level-meter"
+
+esphome:
+  name: ${device_name}
+  friendly_name: Water Level Meter
+  comment: "ESP32-C3 + JSN-SR04T ultrasonic water level sensor"
+  project:
+    name: "diy.water_level_meter"
+    version: "1.0"
+
+esp32:
+  board: esp32-c3-devkitm-1
+  variant: esp32c3
+  framework:
+    type: esp-idf
+
+logger:
+
+api:
+  encryption:
+    key: !secret api_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+# Enable built-in web server for quick diagnostics
+web_server:
+  port: 80
+
+# Optional authentication (uncomment to require login)
+#  auth:
+#    username: admin
+#    password: !secret ota_password
+
+time:
+  - platform: sntp
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  power_save_mode: NONE # Disable power save for more consistent readings
+  reboot_timeout: 5min # Reboot if WiFi connection not established within 5 minutes
+  # The IP address need to be fixed for OTA update to work.
+  # The issue is that ESPHome can't use mDNS if Docker is in swarm mode.
+  # So this will remain until the Docker is taken out of swarm mode.
+  manual_ip:
+    static_ip: 192.168.0.156
+    gateway: 192.168.0.1
+    subnet: 255.255.255.0
+  ap:
+    ssid: "WaterMeterSetupAP"
+    password: "12345678"
+
+# Enable captive portal (accessible while in AP mode)
+# Listening at http://192.168.4.1/
+captive_portal:
+
+# UART (Mode 2). Bidirectional — level-shift RX and TX
+uart:
+  id: uart_bus
+  rx_pin: GPIO20   # ESP32‑C3 Super Mini RX
+  tx_pin: GPIO21   # ESP32‑C3 Super Mini TX
+  baud_rate: 9600  # Common for JSN‑SR04T UART modes
+
+sensor:
+  # Raw distance sensor (top-mounted, measures distance from sensor to water surface)
+  - platform: jsn_sr04t
+    id: raw_distance_sensor
+    uart_id: uart_bus
+    name: "Raw Distance"
+    device_class: distance
+    icon: "mdi:ruler"
+    unit_of_measurement: "m"
+    accuracy_decimals: 3
+    update_interval: 30s # → updates via interval (see task below )
+    # filters:
+    #   - median:
+    #       window_size: 3        # or 5 if you burst 5 reads
+    #       send_every: 3         # (or 5) publish only the aggregated value
+    #       send_first_at: 3
+    #   - clamp:
+    #       min_value: 0.0
+    #       max_value: 3.0        # adjust to your max measurable distance (m)
+    #   - delta: 0.01             # optional: only publish if change >= 1 cm (if units are meters)
+
+
+  # Calculated water tank level percentage
+  - platform: template
+    name: "Water Tank Level"
+    # device_class: volume  # Home Assistant complains that unit cannot be '%' for `volume`
+    icon: "mdi:water-percent"
+    unit_of_measurement: "%"
+    accuracy_decimals: 1
+    # update_interval: never → updates when raw_distance_sensor updates
+    lambda: |-
+      const float distance_when_full = id(distance_when_full_config).state;
+      const float distance_when_empty = id(distance_when_empty_config).state;
+      const float raw_distance = id(raw_distance_sensor).state;
+      
+      if (isnan(raw_distance) || isnan(distance_when_full) || isnan(distance_when_empty)) return NAN;
+      if (distance_when_empty <= distance_when_full) return NAN; // Invalid configuration
+      
+      // Calculate percentage: full tank = 100%, empty tank = 0%
+      float level_percent = ((distance_when_empty - raw_distance) / (distance_when_empty - distance_when_full)) * 100.0f;
+      
+      // Clamp to 0-100% range
+      if (level_percent < 0.0f) level_percent = 0.0f;
+      if (level_percent > 100.0f) level_percent = 100.0f;
+      
+      return level_percent;
+
+  # Water volume in liters
+  - platform: template
+    name: "Water Volume"
+    device_class: volume
+    icon: "mdi:water"
+    unit_of_measurement: "L"
+    accuracy_decimals: 0
+   # update_interval: never → updates when raw_distance_sensor updates
+    lambda: |-
+      const float distance_when_full = id(distance_when_full_config).state;
+      const float distance_when_empty = id(distance_when_empty_config).state;
+      const float tank_area_m2 = id(tank_area_config).state;
+      const float raw_distance = id(raw_distance_sensor).state;
+      
+      if (isnan(raw_distance) || isnan(distance_when_full) || isnan(distance_when_empty) || isnan(tank_area_m2)) return NAN;
+      if (distance_when_empty <= distance_when_full) return NAN; // Invalid configuration
+      
+      // Calculate water height from the bottom
+      float water_height = distance_when_empty - raw_distance;
+      if (water_height < 0.0f) water_height = 0.0f;
+      
+      // Maximum possible water height
+      float max_water_height = distance_when_empty - distance_when_full;
+      if (water_height > max_water_height) water_height = max_water_height;
+      
+      return (water_height * tank_area_m2) * 1000.0;  // Convert m³ to liters
+
+  # WiFi signal strength
+  - platform: wifi_signal
+    name: "WiFi Signal"
+    icon: "mdi:wifi"
+    update_interval: 60s
+
+  # Device uptime
+  - platform: uptime
+    name: "Uptime"
+    icon: "mdi:clock-outline"
+
+# Binary sensors for alerts
+binary_sensor:
+  - platform: template
+    name: "Low Water Alert"
+    device_class: problem
+    icon: "mdi:water-alert"
+    lambda: |-
+      const float distance_when_full = id(distance_when_full_config).state;
+      const float distance_when_empty = id(distance_when_empty_config).state;
+      const float raw_distance = id(raw_distance_sensor).state;
+      const float alert_threshold = id(low_water_threshold_config).state;
+      
+      if (isnan(raw_distance) || isnan(distance_when_full) || isnan(distance_when_empty) || isnan(alert_threshold)) return false;
+      if (distance_when_empty <= distance_when_full) return false; // Invalid configuration
+      
+      // Calculate percentage
+      float level_percent = ((distance_when_empty - raw_distance) / (distance_when_empty - distance_when_full)) * 100.0f;
+      
+      return level_percent < alert_threshold;
+
+  - platform: status
+    name: "Status"
+
+# Number inputs for sensor calibration and tank configuration
+number:
+  - platform: template
+    id: distance_when_full_config
+    name: "Distance When Full"
+    icon: "mdi:arrow-down-bold"
+    unit_of_measurement: "m"
+    optimistic: true
+    min_value: 0.02
+    max_value: 5.0
+    initial_value: 0.10
+    step: 0.001
+    restore_value: true
+    entity_category: config  # Hide from dashboard, show in device settings only
+    set_action:
+      - lambda: |-
+          ESP_LOGD("config", "Distance when full set to: %.3f m", x);
+    
+  - platform: template
+    id: distance_when_empty_config
+    name: "Distance When Empty"
+    icon: "mdi:arrow-up-bold"
+    unit_of_measurement: "m"
+    optimistic: true
+    min_value: 0.05
+    max_value: 5.0
+    initial_value: 2.0
+    step: 0.001
+    restore_value: true
+    entity_category: config  # Hide from dashboard, show in device settings only
+    set_action:
+      - lambda: |-
+          ESP_LOGD("config", "Distance when empty set to: %.3f m", x);
+    
+  - platform: template
+    id: tank_area_config
+    name: "Tank Area"
+    icon: "mdi:resize"
+    unit_of_measurement: "m²"
+    optimistic: true
+    min_value: 0.01
+    max_value: 100.0
+    initial_value: 1.0
+    step: 0.01
+    restore_value: true
+    entity_category: config  # Hide from dashboard, show in device settings only
+    set_action:
+      - lambda: |-
+          ESP_LOGD("config", "Tank area set to: %.2f m²", x);
+    
+  - platform: template
+    id: low_water_threshold_config
+    name: "Low Water Alert Threshold"
+    icon: "mdi:water-alert-outline"
+    unit_of_measurement: "%"
+    optimistic: true
+    min_value: 5.0
+    max_value: 50.0
+    initial_value: 20.0
+    step: 1.0
+    restore_value: true
+    entity_category: config  # Hide from dashboard, show in device settings only
+    set_action:
+      - lambda: |-
+          ESP_LOGD("config", "Low water alert threshold set to: %.0f%%", x);
+
+
+# Once per hour, force exactly 3 quick updates (spaced a bit for sensor stability)
+# interval:
+#   - interval: 1h
+#     then:
+#       - component.update: raw_distance_sensor
+#       - delay: 2s
+#       - component.update: raw_distance_sensor
+#       - delay: 2s
+#       - component.update: raw_distance_sensor

@@ -1,0 +1,75 @@
+# 💧 ESPHome-water-level-meter
+
+Custom water level monitoring using ESPHome and ultrasonic sensors
+
+## 📋 Project Overview
+
+This project creates a Home Assistant-ready water level sensor using an **ESP32-C3 Super Mini** microcontroller and a **JSN-SR04T** waterproof ultrasonic sensor. The sensor operates in UART Mode 2 for reliable distance measurements and integrates seamlessly with ESPHome firmware.
+
+### Key Features
+- ⚡ **Accurate measurements** up to 5 meters range
+- 🌊 **Waterproof sensor** suitable for outdoor tanks
+- 🏠 **Home Assistant integration** via ESPHome
+- 🔋 **Low power consumption** with ESP32-C3
+- 📡 **Wireless connectivity** over WiFi
+
+---
+
+## 🛠️ Bill of Materials (BOM)
+
+| Component | Purpose | Notes |
+|-----------|---------|-------|
+| **ESP32‑C3 Super Mini** | Main microcontroller | TENSTAR ROBOT or equivalent |
+| **[JSN‑SR04T](docs/JSN‑SR04T.md)** | Ultrasonic distance sensor | Waterproof, 5V logic |
+| **Logic Level Converter** | 5V ↔ 3.3V signal conversion | 4-channel bidirectional |
+| **120kΩ Resistor** | Enable UART Mode 2 | Solder to R27 pad |
+| **Dupont Wires** | Connections | Male-to-female recommended |
+| **5V Power Supply** | System power | USB to ESP32-C3 |
+
+### 💡 Important Notes
+> **Why the level shifter?** The JSN‑SR04T operates at 5V logic levels, while ESP32‑C3 GPIOs are 3.3V-only. The level shifter protects the ESP32 from voltage damage and ensures reliable communication.
+
+**Detailed sensor information:** [JSN‑SR04T Technical Guide](docs/JSN‑SR04T.md)
+
+---
+
+## 🔧 Build Instructions
+
+### Step-by-Step Process
+
+1. **📱 Flash ESP32-C3 with ESPHome**
+   - Follow the detailed guide: [ESPHome Flashing Instructions](docs/ESPHOME_FLASHING.md)
+   - Configure WiFi credentials and device settings
+
+2. **🔩 Modify JSN-SR04T Sensor**
+   - Solder 120kΩ resistor to R27 pad on sensor board
+   - This enables UART Mode 2 with manual triggering
+   - See: [JSN‑SR04T Hardware Modification](docs/JSN‑SR04T.md)
+
+3. **⚡ Wire Components Together**
+   - Connect ESP32-C3, level shifter, and sensor
+   - Reference: [Complete Wiring Schematics](docs/WIRING_SCHEMATICS.md)
+
+4. **🏠 Add to Home Assistant**
+   - Configure device discovery and sensors
+   - Guide: [Home Assistant Integration](docs/HA_INTEGRATION.md)
+
+### ⚠️ Troubleshooting
+If you encounter issues during build or operation, consult: [Troubleshooting Guide](docs/TROUBLESHOOTING.md)
+
+---
+
+## 📊 Expected Performance
+
+- **Measurement Range:** 20cm - 5m
+- **Accuracy:** ±1cm
+- **Update Interval:** Configurable (recommended: 30-60 seconds)
+- **Power Consumption:** ~50mA during measurement, <1mA in deep sleep
+- **Operating Temperature:** -40°C to +85°C
+
+---
+
+## Links
+
+* [JSN‑SR04T Arduino sketch](https://github.com/HamidSaffari/JSN-SR04T) — Arduino sketch, PDF docs
+* [ESPHome: JSN‑SR04T](https://esphome.io/components/sensor/jsn_sr04t/#configuration-variables) — ESPHome example, platform info
