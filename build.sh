@@ -15,7 +15,6 @@ CONTAINER_NAME="esphome-builder"
 # Default values
 FLASH_AFTER_BUILD=false
 FLASH_METHOD="serial"
-INTERACTIVE_MODE=true
 
 # Colors for output
 RED='\033[0;31m'
@@ -50,14 +49,12 @@ USAGE:
 
 OPTIONS:
     --flash                 Flash after successful build
-    --no-flash              Don't flash after build (default behavior)
     --method=METHOD         Flashing method: serial or ota (default: serial)
     --help                  Show this help message
 
 EXAMPLES:
-    ./build.sh                          # Build only (interactive wizard)
-    ./build.sh --no-flash               # Build only (skip wizard)
-    ./build.sh --flash                  # Build and flash via serial
+    ./build.sh                          # Build only
+    ./build.sh --flash                  # Build and flash (via serial by default)
     ./build.sh --flash --method=ota     # Build and flash via OTA
     ./build.sh --flash --method=serial  # Build and flash via serial
 
@@ -69,14 +66,9 @@ while [[ $# -gt 0 ]]; do
     case $1 in
         --flash)
             FLASH_AFTER_BUILD=true
-            INTERACTIVE_MODE=false
             shift
             ;;
-        --no-flash)
-            FLASH_AFTER_BUILD=false
-            INTERACTIVE_MODE=false
-            shift
-            ;;
+
         --method=*)
             FLASH_METHOD="${1#*=}"
             shift
@@ -93,51 +85,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Interactive wizard if no CLI parameters provided
-if [[ "$INTERACTIVE_MODE" == true ]]; then
-    print_header "ESPHome Build Configuration"
-    echo
-        
-    # Flash after building
-    while true; do
-        read -p "Flash after building? (Y/n): " flash_choice
-        case $flash_choice in
-            [Yy]* | "" )
-                FLASH_AFTER_BUILD=true
-                break
-                ;;
-            [Nn]* )
-                FLASH_AFTER_BUILD=false
-                break
-                ;;
-            * )
-                echo "Please answer yes (Y) or no (n)."
-                ;;
-        esac
-    done
-    
-    # Flashing method if flash is enabled
-    if [[ "$FLASH_AFTER_BUILD" == true ]]; then
-        echo
-        while true; do
-            read -p "Flashing method - (S)erial or (O)TA? (S/o): " method_choice
-            case $method_choice in
-                [Ss]* | "" )
-                    FLASH_METHOD="serial"
-                    break
-                    ;;
-                [Oo]* )
-                    FLASH_METHOD="ota"
-                    break
-                    ;;
-                * )
-                    echo "Please answer S for Serial or O for OTA."
-                    ;;
-            esac
-        done
-    fi
-    echo
-fi
+
 
 # Validate flash method
 if [[ "$FLASH_METHOD" != "serial" && "$FLASH_METHOD" != "ota" ]]; then

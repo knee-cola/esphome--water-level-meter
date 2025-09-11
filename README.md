@@ -40,8 +40,10 @@ This project creates a Home Assistant-ready water level sensor using an **ESP32-
 ### Step-by-Step Process
 
 1. **📱 Flash ESP32-C3 with ESPHome**
-   - Follow the detailed guide: [ESPHome Flashing Instructions](docs/ESPHOME_FLASHING.md)
-   - Configure WiFi credentials and device settings
+   - Use `./build.sh --flash` for initial serial flashing
+   - Use `./build.sh --flash --method=ota` for subsequent over-the-air updates
+   - Use `./build.sh` to build firmware without flashing
+   - Configure WiFi credentials in `src/secrets.yaml` before building
 
 2. **🔩 Modify JSN-SR04T Sensor**
    - Solder 120kΩ resistor to R27 pad on sensor board
@@ -105,6 +107,7 @@ If you encounter issues during build or operation, consult: [Troubleshooting Gui
 
 ### Planning Documents
 The `planning/` directory contains detailed implementation plans for upcoming features:
+- [JSN-SR04T Sensor Error Tracking Implementation Plan](planning/sensor-error-tracking.md) - Comprehensive error detection and Home Assistant integration for sensor health monitoring
 - [SSR Power Control Implementation Plan](planning/ssr-power-control-implementation-plan.md) - Solid state relay integration for sensor power management
 - [Power Supply Migration Plan](planning/power-supply-migration-plan.md) - Migration from interval-based to native ESPHome power management
 

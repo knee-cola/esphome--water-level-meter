@@ -120,7 +120,7 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
 ### Task 4: Build Validation
 - **Action**: Validate the implementation through compilation
 - **Validation Steps**:
-  1. Use `./build.sh --no-flash` to verify YAML syntax and configuration
+  1. Use `./build.sh` to verify YAML syntax and configuration
   2. Check for ESPHome compilation errors
   3. Verify all entity IDs are unique and properly referenced
 
@@ -135,7 +135,7 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
    - Task 2: Enhance sensor configuration with error detection
    - Task 3: Add Home Assistant binary sensor
    - Task 4: Testing and validation
-3. **Configuration Validation**: Use `./build.sh --no-flash` to validate YAML syntax and compile without flashing after each change
+3. **Configuration Validation**: Use `./build.sh` to validate YAML syntax and compile without flashing after each change
 4. **Compilation Testing**: Ensure ESPHome can successfully compile the configuration
 5. **Entity Validation**: Verify all sensor and binary_sensor entities are properly defined
 6. **Project Status Updates**: During implementation, update the project status from 📐 Planning to 🔨 Implementing to 🩺 Testing to ✅ DONE as work progresses
@@ -154,7 +154,7 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
 ### Task 1: Add Simple Error Flag Global
 - [ ] Add `sensor_error_flag` global variable to `src/config.yaml`
 - [ ] Commit: "Add sensor error flag global variable"
-- [ ] Build validation: `./build.sh --no-flash`
+- [ ] Build validation: `./build.sh`
 
 ### Task 2: Enhance JSN-SR04T Sensor Configuration  
 - [ ] Locate existing JSN-SR04T sensor configuration in `src/config.yaml`
@@ -162,16 +162,16 @@ Develop a comprehensive error tracking system for the JSN-SR04T ultrasonic senso
 - [ ] ⚠️ **CRITICAL**: Preserve ALL existing parameters (id, uart_id, name, device_class, icon, unit_of_measurement, accuracy_decimals, update_interval, power_supply)
 - [ ] ⚠️ **CRITICAL**: Keep ALL existing filters unchanged (median, clamp, delta with exact parameters)
 - [ ] Commit: "Add error detection to JSN-SR04T sensor"
-- [ ] Build validation: `./build.sh --no-flash`
+- [ ] Build validation: `./build.sh`
 
 ### Task 3: Create Home Assistant Binary Sensor
 - [ ] Add binary_sensor template for error status
 - [ ] Set appropriate device_class, entity_category, and icon
 - [ ] Commit: "Add Home Assistant binary sensor for error status"
-- [ ] Build validation: `./build.sh --no-flash`
+- [ ] Build validation: `./build.sh`
 
 ### Task 4: Build Validation
-- [ ] Final build validation with `./build.sh --no-flash`
+- [ ] Final build validation with `./build.sh`
 - [ ] Verify all entity IDs are unique
 - [ ] Check for ESPHome compilation warnings
 
