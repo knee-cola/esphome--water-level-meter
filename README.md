@@ -61,6 +61,20 @@ If you encounter issues during build or operation, consult: [Troubleshooting Gui
 
 ---
 
+## 📸 Device Gallery
+
+### Completed Device
+<img src="docs/esphome-water-level-meter--device-photo.jpg" alt="Completed ESPHome Water Level Meter Device" width="600">
+
+*The assembled water level meter showing ESP32-C3, level shifter, AQV258 PhotoMOS, and JSN-SR04T connections in weatherproof enclosure*
+
+### Home Assistant Integration
+<img src="docs/home-assistant-panel-screenshot.jpg" alt="Home Assistant Sensor Panel" width="500">
+
+*Home Assistant dashboard displaying real-time water level readings: distance measurement, percentage level, and calculated volume in liters*
+
+---
+
 ## 📊 Expected Performance
 
 - **Measurement Range:** 20cm - 5m
