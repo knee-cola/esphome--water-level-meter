@@ -15,7 +15,7 @@ When creating an implementation plan, ensure it includes these mandatory section
 ### 2. Git Workflow Instructions
 - Specify feature branch naming: `feature/descriptive-feature-name`
 - Include branch creation and management steps
-- Define commit strategy for incremental development
+- Require commit after each logical unit of work
 - Require descriptive, action-oriented commit messages
 
 ### 3. Task Breakdown and Checklist
@@ -33,7 +33,7 @@ When creating an implementation plan, ensure it includes these mandatory section
 Include these specific workflow instructions in every plan:
 - Project planning with comprehensive task checklist
 - Git branch setup with proper naming conventions
-- Implementation loop: code → commit → validate → mark complete
+- Implementation loop: code → validate → mark complete
 - Status updates throughout the development process
 
 ## Mandatory Implementation Rules for All Plans
@@ -41,10 +41,10 @@ Include these specific workflow instructions in every plan:
 Every implementation plan must specify these non-negotiable requirements:
 
 1. **Feature Branch Development**: All work must be done in dedicated feature branches
-2. **Incremental Commits**: Require frequent commits with descriptive messages
+2. **Incremental Commits**: Require commits after each logical unit of work
 3. **Build Validation**: Mandate `./build.sh` testing after each major change
 4. **Preserve Existing Functionality**: Unless explicitly modifying, preserve all existing behavior
-5. **Progress Tracking**: Require status indicator updates and checklist completion marking
+5. **Progress Tracking**: Require status indicator updates and checklist completion marking during project implementation
 6. **Task Completion**: Each task must be marked completed (✅) when finished
 7. **Minimal Viable Solution**: Implement only the essential functionality requested - avoid adding extra logging, error checking, or monitoring unless explicitly requested by the user
 
