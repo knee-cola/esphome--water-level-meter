@@ -58,12 +58,27 @@ wifi:
 # Listening at http://192.168.4.1/
 captive_portal:
 
-# Power supply for JSN-SR04T sensor management
-power_supply:
-  - id: jsn_sr04t_power
-    pin: GPIO10
-    enable_time: 2000ms  # Power-on stabilization time
-    keep_on_time: 1000ms # Keep power after last sensor stops
+# GPIO power control for JSN-SR04T sensor
+# Controls AQV258 PhotoMOS solid state relay
+switch:
+  - platform: gpio
+    pin: 
+      number: GPIO10
+      inverted: true  # For AQV258 PhotoMOS (LOW=ON, HIGH=OFF)
+    id: sensor_power_control
+    internal: true  # Hide from Home Assistant UI
+    restore_mode: ALWAYS_OFF  # Ensure power starts OFF
+
+# 20-minute sensor reading cycle with power management
+# Timing: Power ON → 2s stabilization → Reading → 1s delay → Power OFF
+interval:
+  - interval: 20min
+    then:
+      - switch.turn_on: sensor_power_control
+      - delay: 2000ms  # Sensor stabilization
+      - component.update: raw_distance_sensor
+      - delay: 1000ms  # Reading completion
+      - switch.turn_off: sensor_power_control
 
 # UART (Mode 2). Bidirectional — level-shift RX and TX
 uart:
@@ -73,7 +88,8 @@ uart:
   baud_rate: 9600  # Common for JSN‑SR04T UART modes
 
 sensor:
-  # JSN-SR04T ultrasonic distance sensor
+  # JSN-SR04T ultrasonic distance sensor with interval-based power management
+  # Note: jsn_sr04t platform does not support power_supply component
   # Raw distance sensor (top-mounted, measures distance from sensor to water surface)
   - platform: jsn_sr04t
     id: raw_distance_sensor
@@ -83,7 +99,7 @@ sensor:
     icon: "mdi:ruler"
     unit_of_measurement: "m"
     accuracy_decimals: 3
-    update_interval: 20min  # Native sensor updates every 20 minutes
+    update_interval: never  # Controlled by interval component
     filters:
       - median:
           window_size: 3        # or 5 if you burst 5 reads

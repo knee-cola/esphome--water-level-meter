@@ -129,4 +129,5 @@ Comprehensive documentation in `docs/`:
 - Uses ESP-IDF framework for ESP32-C3 (more robust than Arduino framework)
 - Web server on port 80 for local diagnostics and configuration
 - Template sensors calculate water level percentage and volume from raw distance measurements
-- Native 20-minute update intervals with automatic power management via power_supply component
+- 20-minute update intervals with interval-based power management
+- **JSN-SR04T Power Management Limitation**: The ESPHome `jsn_sr04t` sensor platform does not support the `power_supply` configuration property, requiring interval-based power control with GPIO switch components instead of native power management

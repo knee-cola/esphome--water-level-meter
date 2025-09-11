@@ -90,7 +90,7 @@ If you encounter issues during build or operation, consult: [Troubleshooting Gui
 
 - **Measurement Range:** 20cm - 5m
 - **Accuracy:** ±1cm
-- **Update Interval:** 20 minutes (automatic with power management)
+- **Update Interval:** 20 minutes (interval-based power management)
 - **Power Consumption:** ~50mA during measurement, <1mA in deep sleep
 - **Operating Temperature:** -40°C to +85°C
 
@@ -110,7 +110,8 @@ The `planning/` directory contains detailed implementation plans for upcoming fe
 - [General Project Implementation Guidelines](planning/general-project-guidelines.md) - Standardized development practices and workflow guidelines for all project implementations
 - [JSN-SR04T Sensor Error Tracking Implementation Plan](planning/sensor-error-tracking.md) - Comprehensive error detection and Home Assistant integration for sensor health monitoring
 - [SSR Power Control Implementation Plan](planning/ssr-power-control-implementation-plan.md) - Solid state relay integration for sensor power management
-- [Power Supply Migration Plan](planning/power-supply-migration-plan.md) - Migration from interval-based to native ESPHome power management
+- [Power Supply Migration Plan](planning/power-supply-migration-plan.md) - ❌ **Failed** - JSN-SR04T platform limitation discovered
+- [Power Supply Rollback Plan](planning/power-supply-rollback-plan.md) - ✅ **Completed** - Restored interval-based power management with improvements
 
 ---
 
