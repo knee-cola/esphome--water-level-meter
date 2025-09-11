@@ -46,6 +46,7 @@ Every implementation plan must specify these non-negotiable requirements:
 4. **Preserve Existing Functionality**: Unless explicitly modifying, preserve all existing behavior
 5. **Progress Tracking**: Require status indicator updates and checklist completion marking
 6. **Task Completion**: Each task must be marked completed (✅) when finished
+7. **Minimal Viable Solution**: Implement only the essential functionality requested - avoid adding extra logging, error checking, or monitoring unless explicitly requested by the user
 
 ## Implementation Plan Template Structure
 
