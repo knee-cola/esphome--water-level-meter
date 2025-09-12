@@ -15,6 +15,7 @@ The main configuration is in `src/config.yaml` with a hierarchical structure:
 - **Sensor Stack**: Raw distance → calculated water level percentage → volume in liters
 - **User Configuration**: Template number entities for tank calibration
 - **Alerting**: Binary sensors for low water warnings and device status
+- **Error Tracking**: Sensor error detection with Home Assistant diagnostic integration
 
 ### Data Flow
 ```
@@ -27,7 +28,10 @@ JSN-SR04T (UART Mode 2) → ESP32-C3 → Template Calculations → Home Assistan
 
 ### Build and Deploy
 ```bash
-# Interactive build wizard (recommended for new users)
+# Quick configuration validation (recommended during development - 3-5 seconds)
+./build.sh --check-only
+
+# Full firmware build (60+ seconds)
 ./build.sh
 
 # Build and flash via serial (initial deployment)
@@ -35,6 +39,9 @@ JSN-SR04T (UART Mode 2) → ESP32-C3 → Template Calculations → Home Assistan
 
 # Build and OTA update (subsequent deployments)  
 ./build.sh --flash --method=ota
+
+# Show all build options
+./build.sh --help
 
 # Monitor device logs
 ./monitor.sh
@@ -97,10 +104,11 @@ lambda: |-
 
 ### For Configuration Changes
 1. Edit `src/config.yaml`
-2. Compile with `./build.sh` to validate
-3. Flash to device using appropriate method (serial/OTA)
-4. Monitor with `./monitor.sh` to verify functionality
-5. Test via web interface or Home Assistant integration
+2. Quick validation with `./build.sh --check-only` (fast syntax check)
+3. Full compile with `./build.sh` (if validation passes)
+4. Flash to device using appropriate method (serial/OTA)
+5. Monitor with `./monitor.sh` to verify functionality
+6. Test via web interface or Home Assistant integration
 
 ### For Script Modifications  
 1. Test both interactive and CLI modes of build/monitor scripts
@@ -130,3 +138,5 @@ Comprehensive documentation in `docs/`:
 - Template sensors calculate water level percentage and volume from raw distance measurements
 - 20-minute update intervals with interval-based power management
 - **JSN-SR04T Power Management Limitation**: The ESPHome `jsn_sr04t` sensor platform does not support the `power_supply` configuration property, requiring interval-based power control with GPIO switch components instead of native power management
+- **Build Script Enhancement**: `--check-only` flag provides rapid configuration validation (3-5s vs 60+s full build) for efficient development workflow
+- **Error Tracking**: Comprehensive sensor error detection with automatic recovery and Home Assistant diagnostic integration
