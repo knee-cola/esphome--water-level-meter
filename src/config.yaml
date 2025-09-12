@@ -120,6 +120,10 @@ sensor:
             }
             id(sensor_error_flag) = false;
           }
+    on_value:
+      then:
+        - component.update: water_level_percent
+        - component.update: water_volume_liters
     filters:
       - median:
           window_size: 3        # or 5 if you burst 5 reads
@@ -133,6 +137,7 @@ sensor:
 
   # Calculated water tank level percentage
   - platform: template
+    id: water_level_percent
     name: "Water Tank Level"
     # device_class: volume  # Home Assistant complains that unit cannot be '%' for `volume`
     icon: "mdi:water-percent"
@@ -158,6 +163,7 @@ sensor:
 
   # Water volume in liters
   - platform: template
+    id: water_volume_liters
     name: "Water Volume"
     device_class: volume
     icon: "mdi:water"
