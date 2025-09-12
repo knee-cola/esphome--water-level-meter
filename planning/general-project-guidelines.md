@@ -9,8 +9,8 @@ This document provides instructions for AI agents on how to create comprehensive
 When creating an implementation plan, ensure it includes these mandatory sections:
 
 ### 1. Project Status Tracking
-- Include progress indicators: 📐 Planning → 🔨 Implementing → 🩺 Testing → ✅ DONE
-- Update status as implementation progresses
+- At top of the file include current progress indicator with initial value of "📐 Planning"
+- Require the current progress to be updated as implementation progresses: 📐 Planning → 🔨 Implementing → 🩺 Testing → ✅ DONE
 
 ### 2. Git Workflow Instructions
 - Specify feature branch naming: `feature/descriptive-feature-name`
