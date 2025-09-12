@@ -147,9 +147,9 @@ check_prerequisites() {
     # Check secrets file
     if [[ ! -f "$ESPHOME_SECRETS" ]]; then
         print_warning "secrets.yaml not found"
-        echo "You may need to create this file with your WiFi credentials:"
-        echo "  wifi_ssid: \"YourWiFiName\""
-        echo "  wifi_password: \"YourWiFiPassword\""
+        echo "You can create this file using src/secrets.template.yaml as a starting point:"
+        echo "  cp src/secrets.template.yaml src/secrets.yaml"
+        echo "  # Then edit src/secrets.yaml with your actual WiFi credentials"
         echo
         read -p "Continue anyway? (y/N): " continue_choice
         case $continue_choice in
