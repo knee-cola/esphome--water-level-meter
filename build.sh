@@ -51,10 +51,12 @@ USAGE:
 OPTIONS:
     --flash                 Flash after successful build
     --method=METHOD         Flashing method: serial or ota (default: serial)
+    --check-only           Validate configuration syntax only (no compilation)
     --help                  Show this help message
 
 EXAMPLES:
     ./build.sh                          # Build only
+    ./build.sh --check-only             # Configuration check only
     ./build.sh --flash                  # Build and flash (via serial by default)
     ./build.sh --flash --method=ota     # Build and flash via OTA
     ./build.sh --flash --method=serial  # Build and flash via serial
