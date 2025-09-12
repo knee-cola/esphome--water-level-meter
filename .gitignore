@@ -5,5 +5,9 @@
 # secrets.yaml - Uncomment to ignore real secrets file
 # secrets.yaml
 
+# Build artifacts - ignore all files in build/ but keep the directory
+build/*
+!build/.gitkeep
+
 # Serena MCP server files (local development environment)
 .serena/

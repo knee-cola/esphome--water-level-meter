@@ -1,0 +1,2 @@
+# This file ensures the build/ directory is committed to git
+# while all build artifacts (firmware files) within it are ignored

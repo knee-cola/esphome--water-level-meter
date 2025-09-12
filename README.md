@@ -46,11 +46,12 @@ This project creates a Home Assistant-ready water level sensor using an **ESP32-
    - Use `./build.sh --flash --method=ota` for subsequent over-the-air updates
    - Use `./build.sh --help` to see all available options
    - Configure WiFi credentials in `src/secrets.yaml` before building
+   - **Firmware artifacts**: Successful builds automatically copy firmware to `build/` directory with timestamps and create `firmware_latest.bin` symlink
 
    ### Development Workflow
    - **Quick validation**: `./build.sh --check-only` - Fast syntax checking during development
-   - **Full compilation**: `./build.sh` - Complete firmware build for deployment
-   - **Deploy changes**: `./build.sh --flash --method=ota` - Update device wirelessly
+   - **Full compilation**: `./build.sh` - Complete firmware build for deployment, copies firmware to `build/` directory
+   - **Deploy changes**: `./build.sh --flash --method=ota` - Update device wirelessly, firmware saved to `build/`
 
 2. **🔩 Modify JSN-SR04T Sensor**
    - Solder 120kΩ resistor to R27 pad on sensor board
@@ -107,7 +108,8 @@ If you encounter issues during build or operation, consult: [Troubleshooting Gui
 
 ## 📁 Project Structure
 
-### Documentation
+### Core Directories
+- `build/` - Compiled firmware binaries with timestamps and latest symlink
 - `docs/` - User guides and technical documentation
 - `src/` - ESPHome configuration files
 - `planning/` - Implementation plans and design documents for future features

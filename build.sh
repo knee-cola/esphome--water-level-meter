@@ -174,6 +174,43 @@ cleanup_container() {
     fi
 }
 
+# Copy firmware to build directory
+copy_firmware() {
+    # Source firmware path
+    FIRMWARE_SOURCE="src/.esphome/build/water-level-meter/.pioenvs/water-level-meter/firmware.bin"
+    # Destination directory
+    BUILD_DIR="build"
+    
+    # Check if firmware file exists
+    if [[ -f "$FIRMWARE_SOURCE" ]]; then
+        print_header "Copying Firmware to Build Directory"
+        
+        # Create build directory if it doesn't exist
+        if [[ ! -d "$BUILD_DIR" ]]; then
+            mkdir -p "$BUILD_DIR"
+            print_success "Created build directory"
+        fi
+        
+        # Copy firmware with timestamp
+        TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+        FIRMWARE_DEST="$BUILD_DIR/firmware_${TIMESTAMP}.bin"
+        
+        cp "$FIRMWARE_SOURCE" "$FIRMWARE_DEST"
+        print_success "Firmware copied to: $FIRMWARE_DEST"
+        
+        # Also create/update a symlink to the latest firmware
+        LATEST_LINK="$BUILD_DIR/firmware_latest.bin"
+        if [[ -L "$LATEST_LINK" ]]; then
+            rm "$LATEST_LINK"
+        fi
+        ln -s "firmware_${TIMESTAMP}.bin" "$LATEST_LINK"
+        print_success "Latest firmware link updated: $LATEST_LINK"
+    else
+        print_warning "Firmware file not found at: $FIRMWARE_SOURCE"
+        print_warning "Firmware copying skipped"
+    fi
+}
+
 # Build firmware
 build_firmware() {
     if [[ "$CHECK_ONLY" == true ]]; then
@@ -237,6 +274,11 @@ build_firmware() {
     fi
     
     print_success "Build completed successfully"
+    
+    # Copy firmware to build directory if not in check-only mode
+    if [[ "$CHECK_ONLY" == false ]]; then
+        copy_firmware
+    fi
 }
 
 # Get serial device for flashing
