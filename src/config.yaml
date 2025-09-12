@@ -83,13 +83,11 @@ switch:
 interval:
   - interval: 20min
     then:
-      - lambda: 'ESP_LOGI("interval", "Starting 20-minute sensor reading cycle");'
       - switch.turn_on: sensor_power_control
       - delay: 2000ms  # Sensor stabilization
       - component.update: raw_distance_sensor
       - delay: 1000ms  # Reading completion
       - switch.turn_off: sensor_power_control
-      - lambda: 'ESP_LOGI("interval", "Completed 20-minute sensor reading cycle");'
 
 # UART (Mode 2). Bidirectional — level-shift RX and TX
 uart:
