@@ -169,6 +169,21 @@ cleanup_container() {
 
 # Build firmware
 build_firmware() {
+    if [[ "$CHECK_ONLY" == true ]]; then
+        print_header "Validating ESPHome Configuration"
+        echo "Configuration check only - no compilation will be performed..."
+        
+        # Create simplified Docker command for config validation
+        DOCKER_CMD="docker run --rm --name $CONTAINER_NAME"
+        DOCKER_CMD="$DOCKER_CMD -v $(pwd):/config"
+        DOCKER_CMD="$DOCKER_CMD $DOCKER_IMAGE"
+        
+        # Run configuration validation
+        eval "$DOCKER_CMD config $ESPHOME_CONFIG"
+        print_success "Configuration validation completed successfully"
+        return
+    fi
+
     print_header "Building ESPHome Firmware"
 
     # Create Docker command
@@ -270,7 +285,8 @@ get_ota_device() {
 main() {
     print_header "ESPHome Build Script"
     echo "Configuration: $ESPHOME_CONFIG"
-   echo "Flash after build: $FLASH_AFTER_BUILD"
+    echo "Flash after build: $FLASH_AFTER_BUILD"
+    echo "Configuration check only: $CHECK_ONLY"
     if [[ "$FLASH_AFTER_BUILD" == true ]]; then
         echo "Flash method: $FLASH_METHOD"
     fi
