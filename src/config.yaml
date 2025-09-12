@@ -138,7 +138,7 @@ sensor:
     icon: "mdi:water-percent"
     unit_of_measurement: "%"
     accuracy_decimals: 1
-    # update_interval: never → updates when raw_distance_sensor updates
+    update_interval: never # updates when raw_distance_sensor updates
     lambda: |-
       const float distance_when_full = id(distance_when_full_config).state;
       const float distance_when_empty = id(distance_when_empty_config).state;
@@ -163,7 +163,7 @@ sensor:
     icon: "mdi:water"
     unit_of_measurement: "L"
     accuracy_decimals: 0
-   # update_interval: never → updates when raw_distance_sensor updates
+    update_interval: never # updates when raw_distance_sensor updates
     lambda: |-
       const float distance_when_full = id(distance_when_full_config).state;
       const float distance_when_empty = id(distance_when_empty_config).state;
