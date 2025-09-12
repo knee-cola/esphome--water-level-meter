@@ -15,6 +15,7 @@ CONTAINER_NAME="esphome-builder"
 # Default values
 FLASH_AFTER_BUILD=false
 FLASH_METHOD="serial"
+CHECK_ONLY=false
 
 # Colors for output
 RED='\033[0;31m'
@@ -71,6 +72,10 @@ while [[ $# -gt 0 ]]; do
 
         --method=*)
             FLASH_METHOD="${1#*=}"
+            shift
+            ;;
+        --check-only)
+            CHECK_ONLY=true
             shift
             ;;
         --help)
