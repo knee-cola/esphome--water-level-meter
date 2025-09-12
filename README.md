@@ -45,7 +45,7 @@ This project creates a Home Assistant-ready water level sensor using an **ESP32-
    - Use `./build.sh --flash` for initial serial flashing
    - Use `./build.sh --flash --method=ota` for subsequent over-the-air updates
    - Use `./build.sh --help` to see all available options
-   - Configure WiFi credentials in `src/secrets.yaml` before building
+   - Create `src/secrets.yaml` from template and configure WiFi credentials before building
    - **Firmware artifacts**: Successful builds automatically copy firmware to `build/` directory with timestamps and create `firmware_latest.bin` symlink
 
    ### Development Workflow
