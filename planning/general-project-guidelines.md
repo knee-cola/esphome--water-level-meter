@@ -54,7 +54,8 @@ Every implementation plan must specify these non-negotiable requirements:
 5. **Progress Tracking**: Require status indicator updates and checklist completion marking during project implementation
 6. **Task Completion**: Each task must be marked completed (✅) when finished
 7. **Live Checklist Updates**: **MANDATORY** - Update planning document checklist items from `[ ]` to `[x]` immediately after completing each task, not just at the end of the project
-8. **Minimal Viable Solution**: Implement only the essential functionality requested in terms of features and scope - avoid adding extra logging, error checking, or monitoring unless explicitly requested. However, provide comprehensive technical documentation, code snippets, and implementation details necessary for successful implementation.
+8. **Feature Branch Integration**: **MANDATORY** - After project completion, merge feature branch back to master and clean up by deleting the feature branch
+9. **Minimal Viable Solution**: Implement only the essential functionality requested in terms of features and scope - avoid adding extra logging, error checking, or monitoring unless explicitly requested. However, provide comprehensive technical documentation, code snippets, and implementation details necessary for successful implementation.
 
 ## Implementation Plan Template Structure
 
@@ -93,6 +94,11 @@ Use this structure when creating implementation plans:
 ### Final Validation
 - [ ] Final build validation with `./build.sh`
 - [ ] Update project status to ✅ DONE
+
+### Git Branch Cleanup
+- [ ] Switch back to master branch: `git checkout master`
+- [ ] Merge feature branch: `git merge feature/[descriptive-name]`
+- [ ] Delete feature branch: `git branch -d feature/[descriptive-name]`
 
 ## Architecture Notes
 [Integration constraints, timing considerations, and implementation notes]
