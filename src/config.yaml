@@ -113,6 +113,9 @@ sensor:
           if (isnan(x)) {
             ESP_LOGW("sensor", "JSN-SR04T reading failed");
             id(sensor_error_flag) = true;
+            // Update template sensors with NAN values when raw reading fails
+            id(water_level_percent).publish_state(NAN);
+            id(water_volume_liters).publish_state(NAN);
           } else {
             // Successful reading - clear error flag
             if (id(sensor_error_flag)) {
