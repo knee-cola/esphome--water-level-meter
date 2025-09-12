@@ -100,6 +100,13 @@ if [[ "$FLASH_METHOD" != "serial" && "$FLASH_METHOD" != "ota" ]]; then
     exit 1
 fi
 
+# Validate option conflicts
+if [[ "$CHECK_ONLY" == true && "$FLASH_AFTER_BUILD" == true ]]; then
+    print_error "Cannot use --check-only with --flash options"
+    echo "Configuration check mode only validates syntax without building firmware"
+    exit 1
+fi
+
 # Check prerequisites
 check_prerequisites() {
     print_header "Checking Prerequisites"
