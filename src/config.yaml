@@ -16,7 +16,9 @@ esp32:
   framework:
     type: esp-idf
 
+# preferred on ESP32-C3: frees UART0 pins for your sensor
 logger:
+  hardware_uart: USB_SERIAL_JTAG
 
 api:
   encryption:
