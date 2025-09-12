@@ -39,8 +39,9 @@ When creating an implementation plan, ensure it includes these mandatory section
 Include these specific workflow instructions in every plan:
 - Project planning with comprehensive task checklist
 - Git branch setup with proper naming conventions
-- Implementation loop: code → validate → mark complete
+- Implementation loop: code → validate → mark complete → **update checklist in planning document**
 - Status updates throughout the development process
+- **CRITICAL**: Update checklist items from `[ ]` to `[x]` in the planning document as each task is completed
 
 ## Mandatory Implementation Rules for All Plans
 
@@ -52,7 +53,8 @@ Every implementation plan must specify these non-negotiable requirements:
 4. **Preserve Existing Functionality**: Unless explicitly modifying, preserve all existing behavior
 5. **Progress Tracking**: Require status indicator updates and checklist completion marking during project implementation
 6. **Task Completion**: Each task must be marked completed (✅) when finished
-7. **Minimal Viable Solution**: Implement only the essential functionality requested in terms of features and scope - avoid adding extra logging, error checking, or monitoring unless explicitly requested. However, provide comprehensive technical documentation, code snippets, and implementation details necessary for successful implementation.
+7. **Live Checklist Updates**: **MANDATORY** - Update planning document checklist items from `[ ]` to `[x]` immediately after completing each task, not just at the end of the project
+8. **Minimal Viable Solution**: Implement only the essential functionality requested in terms of features and scope - avoid adding extra logging, error checking, or monitoring unless explicitly requested. However, provide comprehensive technical documentation, code snippets, and implementation details necessary for successful implementation.
 
 ## Implementation Plan Template Structure
 
