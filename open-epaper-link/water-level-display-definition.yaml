@@ -1,3 +1,8 @@
+# display manufacturer: SoluM
+# display model: EL022H3WRA Newton M3 2.2" Lite
+# display size: 250x128
+# display colors: black, red, white
+# firmware: openEPaperLink 0029-BUGF
 - type: text
   value: "Water Level {{ now().strftime('%H:%M') }}"
   x: 10
