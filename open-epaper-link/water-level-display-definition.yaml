@@ -4,23 +4,35 @@
 # display colors: black, red, white
 # firmware: openEPaperLink 0029-BUGF
 
-# Header row
+# Section: Header row
+# Content: title left, current time right
+
+# Text: title
 - type: text
-  value: "Water Level {{ now().strftime('%H:%M') }}"
+  value: "Water Level  {{ states('sensor.000005f9b836e1d7_temperature') }} {{ state_attr('sensor.000005f9b836e1d7_temperature','unit_of_measurement') }}"
   x: 10
   y: 10
   size: 14
   color: black
 
-# Center content: left half; top line
+# Text: current time
+- type: text
+  value: "{{ now().strftime('%H:%M') }}"
+  x: 240
+  y: 10
+  size: 14
+  color: black
+  anchor: rt
+
+# Section: center content; left half; top line
 # Content: current capacity and units
 
 # Text: sensor data
 - type: text
   value: "16.850"
   x: 75
-  y: 60
-  size: 16
+  y: 58
+  size: 19
   color: black
   anchor: rb
 
@@ -28,20 +40,20 @@
 - type: text
   value: "L"
   x: 80
-  y: 60
-  size: 14
+  y: 58
+  size: 17
   color: black
   anchor: lb
 
-# Center content: left half; bottom line
+# Section: center content; left half; bottom line
 # Content: current depth and units
 
 # Text: sensor data
 - type: text
   value: "1.750"
   x: 75
-  y: 75
-  size: 16
+  y: 78
+  size: 19
   color: black
   anchor: rb
 
@@ -49,36 +61,37 @@
 - type: text
   value: "cm"
   x: 80
-  y: 75
-  size: 14
+  y: 78
+  size: 17
   color: black
   anchor: lb
 
-# Center content: center icon
+# Section: center content; center icon
 # Content: large icon
 - type: icon
   value: "mdi:water-percent"   # or mdi:water, mdi:water-outline
   x: 100
-  y: 36
-  size: 48
+  y: 33
+  size: 58
   color: "black"
 
-# Center content: right half
+# Section: center content; right half
 # Content: percentage of full
 
 # Text: sensor data
 - type: text
   value: "32%"
-  x: 220
+  x: 240
   y: 45
-  size: 36
+  size: 43
   color: black
   anchor: rt
 
-# Footer row
+# Section: footer row
 - type: text
-  value: "Change  -1500L  in last 24h"
-  x: 10
+  value: "in last 24h :   -1.500L / -10%"
+  x: 125
   y: 100
   size: 14
   color: black
+  anchor: ct
