@@ -9,11 +9,21 @@
 
 # Text: title
 - type: text
-  value: "Water Level  {{ states('sensor.000005f9b836e1d7_temperature') }} {{ state_attr('sensor.000005f9b836e1d7_temperature','unit_of_measurement') }}"
+  value: "Water Level"
   x: 10
   y: 10
   size: 14
   color: black
+  anchor: lt
+
+# Text: title
+- type: text
+  value: "{{ states('sensor.000005f9b836e1d7_temperature') }} {{ state_attr('sensor.000005f9b836e1d7_temperature','unit_of_measurement') }}"
+  x: 170
+  y: 10
+  size: 14
+  color: red
+  anchor: rt
 
 # Text: current time
 - type: text
@@ -94,4 +104,4 @@
   y: 100
   size: 14
   color: black
-  anchor: ct
+  anchor: mt
